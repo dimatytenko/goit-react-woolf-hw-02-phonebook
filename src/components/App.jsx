@@ -31,17 +31,20 @@ export class App extends Component {
     );
   };
 
-  addNewContact = contact => {
+  addNewContact = newContact => {
+    if (
+      this.state.contacts.some(
+        contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
+      )
+    ) {
+      alert(`${newContact.name} is already in contacts`);
+      return false;
+    }
     this.setState(prev => ({
       ...prev,
-      contacts: [...prev.contacts, contact],
+      contacts: [...prev.contacts, newContact],
     }));
-  };
-
-  checkContact = name => {
-    return this.state.contacts.some(
-      contact => contact.name.toLowerCase() === name.toLowerCase()
-    );
+    return true;
   };
 
   render() {
@@ -49,10 +52,7 @@ export class App extends Component {
       <div className="App">
         <h1>Phonebook</h1>
 
-        <ContactForm
-          onSubmit={this.addNewContact}
-          checkContact={this.checkContact}
-        />
+        <ContactForm onSubmit={this.addNewContact} />
 
         <h2>Contacts</h2>
         <Filter value={this.state.filter} onChange={this.changeFilter} />

@@ -29,12 +29,8 @@ export class ContactForm extends Component {
       return;
     }
 
-    if (this.props.checkContact(this.state.name)) {
-      alert(`${this.state.name} is already in contacts`);
-      return;
-    }
-
-    this.props.onSubmit({ ...this.state, id: nanoid() });
+    const check = this.props.onSubmit({ ...this.state, id: nanoid() });
+    if (!check) return;
 
     this.resetForm();
   };
